@@ -1,14 +1,9 @@
-function convertToRoman() {
-  const input = document.getElementById("numberInput").value;
-  const num = parseInt(input);
-  const outputDiv = document.getElementById("output");
-
-  if (isNaN(num) || num < 1 || num > 100000) {
-    outputDiv.innerText = "Please enter a number between 1 and 100000.";
-    return;
+function convertToRoman(num) {
+  if (num <= 0 || num > 100000) {
+    return "Please enter a number between 1 and 100000.";
   }
 
-  const romanSymbols = [
+  const romanNumerals = [
     ['M', 1000],
     ['CM', 900],
     ['D', 500],
@@ -25,14 +20,25 @@ function convertToRoman() {
   ];
 
   let result = "";
-  let value = num;
 
-  for (let [symbol, val] of romanSymbols) {
-    while (value >= val) {
+  for (let [symbol, value] of romanNumerals) {
+    while (num >= value) {
       result += symbol;
-      value -= val;
+      num -= value;
     }
   }
 
-  outputDiv.innerText = result.toUpperCase();
+  return result;
+}
+
+function convertNumber() {
+  const input = document.getElementById("numberInput").value;
+  const number = parseInt(input);
+  const resultDiv = document.getElementById("result");
+
+  if (!isNaN(number)) {
+    resultDiv.textContent = "Roman Numeral: " + convertToRoman(number);
+  } else {
+    resultDiv.textContent = "Please enter a valid number.";
+  }
 }
