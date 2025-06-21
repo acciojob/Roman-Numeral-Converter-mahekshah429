@@ -1,37 +1,41 @@
-function convertToRoman() {
-  const num = parseInt(document.getElementById("numberInput").value);
-  const resultElement = document.getElementById("result");
+function convertToRoman(num) {
+  if (num <= 0 || num > 3999) return "Enter number from 1 to 3999";
 
-  if (isNaN(num) || num < 1 || num > 100000) {
-    resultElement.textContent = "Please enter a number between 1 and 100000.";
+  const romanMap = [
+    { val: 1000, sym: "M" },
+    { val: 900, sym: "CM" },
+    { val: 500, sym: "D" },
+    { val: 400, sym: "CD" },
+    { val: 100, sym: "C" },
+    { val: 90, sym: "XC" },
+    { val: 50, sym: "L" },
+    { val: 40, sym: "XL" },
+    { val: 10, sym: "X" },
+    { val: 9, sym: "IX" },
+    { val: 5, sym: "V" },
+    { val: 4, sym: "IV" },
+    { val: 1, sym: "I" },
+  ];
+
+  let result = "";
+  for (const { val, sym } of romanMap) {
+    while (num >= val) {
+      result += sym;
+      num -= val;
+    }
+  }
+  return result;
+}
+
+function convert() {
+  const input = document.getElementById("numberInput").value;
+  const resultEl = document.getElementById("result");
+
+  if (!input || isNaN(input)) {
+    resultEl.textContent = "Please enter a valid number.";
     return;
   }
 
-  const romanNumerals = [
-    ["M", 1000],
-    ["CM", 900],
-    ["D", 500],
-    ["CD", 400],
-    ["C", 100],
-    ["XC", 90],
-    ["L", 50],
-    ["XL", 40],
-    ["X", 10],
-    ["IX", 9],
-    ["V", 5],
-    ["IV", 4],
-    ["I", 1],
-  ];
-
-  let roman = "";
-  let number = num;
-
-  for (let [symbol, value] of romanNumerals) {
-    while (number >= value) {
-      roman += symbol;
-      number -= value;
-    }
-  }
-
-  resultElement.textContent = `Roman Numeral: ${roman}`;
+  const roman = convertToRoman(Number(input));
+  resultEl.textContent = `Roman Numeral: ${roman}`;
 }
